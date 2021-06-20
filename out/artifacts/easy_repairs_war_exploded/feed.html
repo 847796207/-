@@ -1,0 +1,140 @@
+<!doctype html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<title>首页</title>
+	<script src="js/mui.min.js"></script>
+	<link href="css/mui.min.css" rel="stylesheet" />
+<!--	<link href="css/tabBar.css" rel="stylesheet" />-->
+	<style>
+		html,
+		body {
+			background-color: #ffffff;
+		}
+
+		.mui-card-header{
+			/*background-image: url(img/test.JPG);*/
+			height: 15vw;
+			width: 100%;
+
+			background-size: contain;
+		}
+
+		.mui-card-content img{
+			height: 100vw;
+			width: 100%;
+		}
+
+
+	</style>
+</head>
+
+<body>
+
+
+<header class="mui-bar mui-bar-nav">
+	<h1 class="mui-title">喂食</h1>
+</header>
+
+
+<div class="mui-content" style="padding-top: 60px;padding-bottom: 360px;">
+
+	<div class="mui-input-row" >
+		<label>禽畜编号</label>
+		<input id="pNumber" type="text" class="mui-input-clear" placeholder="标签号码" >
+	</div>
+
+	<div class="mui-input-row">
+		<label>投喂食物</label>
+		<input id="pFood" type="text" class="mui-input-clear" placeholder="类别">
+	</div>
+
+	<div class="mui-input-row">
+		<label>最新体重</label>
+		<input id="pWeight" type="text" class="mui-input-clear" placeholder="体重">
+	</div>
+</div>
+<button type="button" onclick="doPublish()" class="mui-btn mui-btn-blue mui-btn-block" style="padding-bottom: 20px;">上传</button>
+</div>
+
+<nav class="mui-bar mui-bar-tab">
+	<a class="mui-tab-item " href="index.html">
+		<span class="mui-icon mui-icon-home"></span>
+		<span class="mui-tab-label">首页</span>
+	</a>
+	<a class="mui-tab-item" href="livestock.html">
+		<span class="mui-icon mui-icon-info" ></span>
+		<span class="mui-tab-label">禽畜</span>
+	</a>
+	<a class="mui-tab-item" href="feed.html">
+		<span class="mui-icon mui-icon-email mui-active" ></span>
+		<span class="mui-tab-label">喂养</span>
+	</a>
+	<a class="mui-tab-item" href="shezhi.html">
+		<span class="mui-icon mui-icon-gear " ></span>
+		<span class="mui-tab-label">设置</span>
+	</a>
+</nav>
+
+<script src="js/go.js">
+</script>
+
+<!-- <script>
+
+// function uploadFile() {
+// var mypic =mui("#pic")[0].files[0];
+
+// var mydata = new FormData();
+
+// mydata.append("mfile",mypic);
+
+// mui.ajax('http://192.168.125.120:8080/upload.do',{
+// 	dataType:'text',
+// 	type:'POST',
+// 	async:true,
+// 	data:mydata,
+// 	processData:false,
+// 	contentType:false,
+// 	success:function (data) {
+// 		var farther=document.querySelector("#preview");
+
+// 		var imgNode =document.createElement("img");
+// 		imgNode.setAttribute("src",data);
+// 		imgNode.width=100;
+// 		imgNode.height=100;
+// 		imgNode.style.marginLeft="10px";
+
+// 		farther.appendChild(imgNode);
+// 	},
+// 	error:function(){
+// 		console.log("文件上传失败");
+// 	}
+
+
+
+// })
+// }
+
+</script> -->
+
+<script>
+	function doPublish() {
+		var pnumber = document.querySelector("#pNumber").value;
+		var pfood = document.querySelector("#pFood").value;
+		var pweight = document.querySelector("#pWeight").value;
+
+
+		mui.post("/feed",
+				{pNumber:pnumber,pFood:pfood,pWeight:pweight},
+				function (data) {
+					mui.toast(data,{duration:'long',type:'div'});
+				},"text")
+	}
+
+</script>
+
+</body>
+
+</html>

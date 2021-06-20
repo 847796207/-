@@ -1,0 +1,145 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" href="./css/mui.min.css">
+		<script src="js/mui.min.js"></script>
+		<script src="js/app.js"></script>
+		<script src="js/mui.enterfocus.js"></script>
+		<script src="js/template-web.js"></script>
+		<script src="js/jquery-3.4.1.min.js"></script>
+		<script src="js/jquery-3.4.1.js"></script>
+		<script type="text/javascript" charset="utf-8">
+			mui.init();
+			window.data=[];
+			window.page=1;
+		</script>
+
+	</head>
+
+	<body onload="mybodyLoad()">
+
+		<header class="mui-bar mui-bar-nav" style="padding-right: 15px;">
+			<h1 class="mui-title">禽畜</h1>
+		</header>
+		<div class="mui-content">
+
+		<div class="mui-content-padded">
+			<div class="mui-input-row mui-search" >
+				<input oninput="doSearch(this)" type="search" class="mui-input-clear" placeholder="">
+			</div>
+		</div>
+
+
+
+		<div id="container" ></div>
+
+			<nav class="mui-bar mui-bar-tab">
+				<a class="mui-tab-item " href="index.html">
+					<span class="mui-icon mui-icon-home"></span>
+					<span class="mui-tab-label">首页</span>
+				</a>
+				<a class="mui-tab-item" href="livestock.html">
+					<span class="mui-icon mui-icon-info mui-active" ></span>
+					<span class="mui-tab-label">禽畜</span>
+				</a>
+				<a class="mui-tab-item" href="feed.html">
+					<span class="mui-icon mui-icon-email " ></span>
+					<span class="mui-tab-label">喂养</span>
+				</a>
+				<a class="mui-tab-item" href="shezhi.html">
+					<span class="mui-icon mui-icon-gear " ></span>
+					<span class="mui-tab-label">设置</span>
+				</a>
+			</nav>
+			</div>
+
+
+
+
+		<script src="js/go.js">
+		</script>
+
+      <script>
+
+	  </script>
+
+		<script type="text/html" id="tql">
+
+		<ul class="mui-table-view">
+			{{each livestock}}
+			<li id="info" class="mui-table-view-cell mui-media">
+				<a href="detail.html?Targetid={{$value.id}}">
+					<img class="mui-media-object mui-pull-left" src={{$value.avater}}>
+					<div class="mui-media-body">
+						{{$value.number}}
+						<p class="mui-ellipsis">{{$value.weight}}</p>
+					</div>
+				</a>
+			</li>
+			{{/each}}
+			</ul>
+		</script>
+
+	<script>
+		mui.get("/livestock",{
+			page:1,
+			keywords:""
+		},function (data) {
+			//接受到数据渲染
+			var html = template ("tql",{livestock:data});
+			document.querySelector("#container").innerHTML=html;
+		},"json");
+	</script>
+
+	<script>
+		function doSearch(obj) {
+			mui.get("/livestock",{
+				page:1,
+				keywords:obj.value
+			},function (data) {
+				//接受到数据渲染
+				var html = template ('tql',{livestock:data});
+				document.querySelector("#container").innerHTML=html;
+			},"json");
+		}
+	</script>
+
+
+	<script>
+		function mybodyLoad() {
+			mui("container").pullRefresh({
+				up : {
+					height:50,//可选.默认50.触发上拉加载拖动距离
+					auto:false,//可选,默认false.自动上拉加载一次
+					contentrefresh : "正在加载...",//可选，正在加载状态时，上拉加载控件上显示的标题内容
+					contentnomore:'没有更多数据了',//可选，请求完毕若没有更多数据时显示的提醒内容；
+					callback :function () {
+						mui.get("/teacher",{
+							page:2,
+							keywords:obj.value
+						},function (data) {
+							//接受到数据渲染
+							window.data =window.data.concat(data);
+							mui.toast("加载了"+data.length+"条数据",{duration:'long',type:'div'})
+							var html = template ('tql',{teacher:data});
+							document.querySelector("#container").innerHTML=html;
+						},"json");
+					}
+					}//必选，刷新函数，根据具体业务来编写，比如通过ajax从服务器获取新数据；
+				}
+			)
+		}
+
+	</script>
+
+
+
+
+
+	</body>
+
+</html>

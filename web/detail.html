@@ -1,0 +1,137 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<script src="js/mui.enterfocus.js"></script>
+		<script src="js/template-web.js "> </script>
+
+	</head>
+
+	<body>
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript">
+			mui.init()
+
+			function GetRequest() {
+				var url = location.search; //获取url中"?"符后的字串
+
+				var theRequest = new Object();
+				if (url.indexOf("?") != -1) {
+					var str = url.substr(1);
+
+					strs = str.split("=");
+					var theRequest = strs[1];
+					//for (var i = 0; i < strs.length; i++) {
+						//theRequest[strs[i].split("=")[0]] = decodeURIComponent(strs[i].split("=")[1]);
+					//}
+				}
+
+				return theRequest;
+			}
+
+			var a=parseInt(GetRequest());
+
+		</script>
+		
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">详细信息</h1>
+			<a class=" mui-icon  mui-pull-right" href="#sheet"></a>
+		</header>
+
+		<div style="padding-top: 50px" id="container">
+
+		</div>
+		
+<!--		<script type="text/html" id="tpl">-->
+		<!--			{{each list}}}-->
+
+		<!--						<a href="#">-->
+		<!--							<img class="mui-media-object" style="height:200px" style="width:200px" style="text-align: center;" src={{$value.avater}}>-->
+		<!--							<div>体重：{{$value.weight}}</div>-->
+		<!--							<div>种类：{{$value.category}}</div>-->
+		<!--							<div>是否喂食：{{$value.feed}}</div>-->
+		<!--						</a>-->
+		<!--			{{/each}}-->
+		<!--		    </script>-->
+
+		<script  type="text/html" id="tpl">
+			{{each list}}}
+
+			<a href="#">
+
+		<div class="mui-card">
+			<div class="mui-card-header mui-card-media">
+				<!--
+                        主体内容部分：
+                        媒体卡片自作：mui-card-media
+                        右边文字叙述部分：mui-media-body
+                    -->
+				<!--<div class="mui-card-media">-->
+<!--				<img src="images/test.JPG"/>-->
+				<div class="mui-media-body">
+					禽畜编号：{{$value.number}}
+					<p>品种：{{$value.category}}</p>
+					<!--</div>-->
+				</div>
+			</div>
+			<div class="mui-card-content">
+				<!--
+                    mui-card-content-inner:能够有一个缩进的效果
+                -->
+				<div class="mui-card-content-inner">
+					<img class="mui-media-object" style="height:200px" style="width:200px" style="text-align: center;" src={{$value.avater}}>
+					<p class="mui-card-content-inner" >
+						是否喂食：{{$value.feed}}
+					</p>
+					<p class="mui-card-content-inner" >
+						体重：{{$value.weight}}
+					</p>
+					<p class="mui-card-content-inner" >
+						原产地：{{$value.origin}}
+					</p>
+				</div>
+
+			</div>
+
+		</div>
+			</a>
+			{{/each}}
+		</script>
+
+
+
+
+
+
+		<script>
+			// function getUrlParam (name) {
+			// 	var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+			// 	var r = window.location.search.substr(1).match(reg);
+			// 	if (r!= null) {
+			// 		return unescape(r[2]);
+			// 	}else{
+			// 		return null;
+			// 	}
+			// }
+			//获取url中的targetId参数
+
+
+			mui.get("/detail",{
+				n:a
+			},function (data) {
+				//接受到数据渲染
+				var html = template ('tpl',{list:data});
+
+				document.querySelector("#container").innerHTML=html;
+			},"json");
+		</script>
+		
+		
+	</body>
+
+</html>

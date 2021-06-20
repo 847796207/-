@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>首页</title>
+    <script src="js/mui.min.js"></script>
+    <link href="css/mui.min.css" rel="stylesheet" />
+    <!--	<link href="css/tabBar.css" rel="stylesheet" />-->
+    <style>
+        html,
+        body {
+            background-color: #ffffff;
+        }
+
+        .mui-card-header{
+            /*background-image: url(img/test.JPG);*/
+            height: 15vw;
+            width: 100%;
+
+            background-size: contain;
+        }
+
+        .mui-card-content img{
+            height: 100vw;
+            width: 100%;
+        }
+
+
+    </style>
+</head>
+<body>
+
+
+<header class="mui-bar mui-bar-nav">
+    <h1 class="mui-title">接种</h1>
+</header>
+
+
+<div class="mui-content" style="padding-top: 60px;padding-bottom: 360px;">
+
+    <div class="mui-input-row" >
+        <label>禽畜编号</label>
+        <input id="pNumber" type="text" class="mui-input-clear" placeholder="标签号码" >
+    </div>
+
+    <div class="mui-input-row">
+        <label>疫苗种类</label>
+        <input id="pVaccine" type="text" class="mui-input-clear" placeholder="类别">
+    </div>
+
+
+</div>
+<button type="button" onclick="doPublish()" class="mui-btn mui-btn-blue mui-btn-block" style="padding-bottom: 20px;">上传</button>
+</div>
+
+
+
+<script src="js/go.js">
+</script>
+
+<script>
+    function doPublish() {
+        var pnumber = document.querySelector("#pNumber").value;
+        var pvaccine = document.querySelector("#pVaccine").value;
+
+
+
+        mui.post("/vaccine",
+            {pNumber:pnumber,pVaccine:pvaccine},
+            function (data) {
+                mui.toast(data,{duration:'long',type:'div'});
+            },"text")
+    }
+
+</script>
+</body>
+
+</html>

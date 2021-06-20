@@ -1,0 +1,148 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>首页</title>
+		<script src="js/mui.min.js"></script>
+		<link href="css/mui.min.css" rel="stylesheet" />
+
+		<style>
+			html,
+			body {
+				background-color: #ffffff;
+			}
+			
+			 .mui-card-header{
+			     /*background-image: url(img/test.JPG);*/
+			     height: 15vw;
+			     width: 100%;
+			     
+			     background-size: contain;
+			 }
+			 
+			 .mui-card-content img{
+			     height: 100vw;
+			     width: 100%;
+			 }
+		
+			
+		</style>
+	</head>
+
+	<body>
+		
+		
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">添加禽畜</h1>
+		</header>
+
+
+		<div class="mui-content" style="padding-top: 60px;padding-bottom: 200px;">
+		
+		<div class="mui-input-row">
+			<label>品种</label>
+			<input id="pCategory" type="text" class="mui-input-clear" placeholder="禽畜品种">
+		</div>
+		
+		<div class="mui-input-row" >
+			<label>所属区域</label>
+			<input id="pRegin" type="text" class="mui-input-clear" placeholder="禽畜所属区域" >
+		</div>
+		
+        <div class="mui-input-row">
+        	<label>标签编号</label>
+        	<input id="pNumber" type="text" class="mui-input-clear" placeholder="编号">
+        </div>
+        
+		<div class="mui-input-row">
+			<label>体重</label>
+			<input id="pWeight" type="text" class="mui-input-clear" placeholder="体重">
+		</div>
+		
+		<div class="mui-input-row">
+			<label>原产地</label>
+			<input id="pOrigin" type="text" class="mui-input-clear" placeholder="原产地">
+		</div>
+
+			<div id="preview" class="mui-content-padded">
+
+			</div>
+
+		<div class="mui-content-padded">
+			<input  onchange="uploadFile()" id="pic" type="file" style="opacity: 50%">
+			<span >点击上传禽畜图片</span>
+		</div>
+			
+			</div>
+			
+			
+			<button type="button" onclick="doPublish()" class="mui-btn mui-btn-blue mui-btn-block" style="padding-bottom: 10px;position: fixed">上传</button>
+		</div>
+
+
+		
+		<script src="js/go.js">
+		</script>
+
+	<script>
+	
+	function uploadFile() {
+	var mypic =mui("#pic")[0].files[0];
+
+	var mydata = new FormData();
+
+	mydata.append("mfile",mypic);
+
+	mui.ajax('upload.do',{
+		dataType:'text',
+		type:'POST',
+		async:true,
+		data:mydata,
+		processData:false,
+		contentType:false,
+		success:function (data) {
+			var farther=document.querySelector("#preview");
+            window.alert(data);
+			var imgNode =document.createElement("img");
+			imgNode.setAttribute("src",data);
+			imgNode.width=80;
+			imgNode.height=80;
+			imgNode.style.marginLeft="10px";
+			
+			farther.appendChild(imgNode);
+		},
+		error:function(){
+			console.log("文件上传失败");
+		}
+
+
+
+	})
+	}
+	
+	</script>
+
+	<script>
+		function doPublish() {
+		 var pregin = document.querySelector("#pRegin").value;
+		 var pcategory = document.querySelector("#pCategory").value;
+		 var pnumber = document.querySelector("#pNumber").value;
+		 var pweight = document.querySelector("#pWeight").value;
+		 var porigin = document.querySelector("#pOrigin").value;
+
+			mui.post("/add",
+					{pRegin:pregin,pCategory:pcategory,pNumber:pnumber,pWeight:pweight,pOrigin:porigin},
+					function (data) {
+						mui.toast(data,{duration:'long',type:'div'});
+
+					},"text")
+		}
+
+	</script>
+
+	</body>
+
+</html>

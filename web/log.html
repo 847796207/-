@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title></title>
+	<link rel="stylesheet" href="./css/mui.min.css">
+
+    <script type="text/javascript">
+    
+   		document.addEventListener('plusready', function(){
+   			//console.log("所有plus api都应该在此事件发生后调用，否则会出现plus is undefined。")
+   			
+   		});
+   		
+    </script>
+</head>
+<body>
+	<img src="img/cover.jpg" style="text-align: center; padding-top: 50px"/>
+	<form class="mui-input-group">
+	    <div class="mui-input-row">
+	        <label>用户名</label>
+	    <input id="username" type="text" class="mui-input-clear" placeholder="请输入用户名">
+	    </div>
+	    <div class="mui-input-row">
+	        <label>密码</label>
+	        <input id="password" type="password" class="mui-input-password" placeholder="请输入密码">
+	    </div>
+		
+
+		<div style="text-align: center;padding-bottom: 5px;">
+			<a href="reg.html">没有账号，去注册</a>
+		</div>
+	</form>
+
+	<div class="mui-content-padded">
+		<button type="button" class="mui-btn-block mui-btn-primary"  style="padding: 10px;" onclick="doLogin()">登录</button>
+	</div>
+
+	<script src="js/mui.min.js"></script>
+	<script src="js/app.js"></script>
+	<script src="js/mui.enterfocus.js"></script>
+	<script>
+		function doLogin() {
+
+         var u = document.querySelector("#username").value;
+         var p = document.querySelector("#password").value;
+
+
+         mui.get("/login",{
+         	username:u,password:p
+		 },function (data) {
+			if (data!=400)
+			{
+				localStorage.setItem("name",data.name);
+				mui.toast("登录成功",{duration:'long',type:'div'});
+				location.href="index.html";
+
+			}
+			else
+			{
+				mui.toast("登录失败",{duration:'long',type:'div'});
+			}
+		 },"json");
+
+		}
+
+
+	</script>
+
+</body>
+</html>
